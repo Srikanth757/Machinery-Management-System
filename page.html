@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Add Machinery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 5px;
+      color: #222;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+    }
+
+    button {
+      background: #4a90e2;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #357ab7;
+    }
+
+    .container button:last-of-type {
+      background: #666;
+      margin-top: 8px;
+    }
+
+    .container button:last-of-type:hover {
+      background: #444;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Add Machinery</h1>
+    <form id="machineryForm">
+      <label>Name:</label>
+      <input type="text" name="name" required>
+
+      <label>Price :</label>
+      <input type="number" name="price" step="0.01" required>
+
+      <label>Description:</label>
+      <textarea name="description" rows="3" required></textarea>
+
+      <label>Status:</label>
+      <select name="status" required>
+        <option value="active">Active</option>
+        <option value="Booked">Booked</option>
+        <option value="pending">Pending</option>
+      </select>
+
+      <button type="submit">Add Machinery</button>
+    </form>
+
+    <button onclick="window.location.href='view.html'">
+      View All Machinery
+    </button>
+  </div>
+
+  <script>
+    document.getElementById("machineryForm").onsubmit = function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const payload = {
+        name: formData.get("name"),
+        price: formData.get("price"),
+        description: formData.get("description"),
+        status: formData.get("status"),
+      };
+
+      fetch('http://localhost:3000/machinery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.success) {
+            alert('Machinery added!');
+            e.target.reset();
+          } else {
+            alert('Error: ' + data.error);
+          }
+        });
+    };
+  </script>
+</body>
+
+</html>
