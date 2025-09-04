@@ -12,8 +12,8 @@ app.use(express.json());
 // Connect to MySQL (adjust user, password, database)
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'root',           // change if needed
-    password: 'root',           // your MySQL password
+    user: '',           // change if needed
+    password: '',           // your MySQL password
     database: 'machinery_db' // use your DB name!
 });
 
@@ -47,3 +47,4 @@ app.get('/machinery', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+
